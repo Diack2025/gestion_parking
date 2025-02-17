@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +10,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  File? _image; // Stocke la photo de profil
+  File? _image; 
 
   @override
   void initState() {
@@ -19,20 +18,15 @@ class _ProfilePageState extends State<ProfilePage> {
     _loadProfileImage();
   }
 
-  /// Demande l'autorisation de stockage/galerie
   Future<bool> _requestStoragePermission() async {
     if (Platform.isAndroid) {
-      if (await Permission.storage.isGranted || await Permission.photos.isGranted) {
-        return true;
-      }
       var status = await Permission.storage.request();
       var photoStatus = await Permission.photos.request();
       return status.isGranted || photoStatus.isGranted;
     }
-    return true; // iOS n'a pas besoin de permission explicite
+    return true;
   }
 
-  /// Charge l'image de profil depuis le stockage local
   Future<void> _loadProfileImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? imagePath = prefs.getString('profile_image');
@@ -43,42 +37,41 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  /// Sélectionne une nouvelle photo de profil
   Future<void> _pickImage() async {
     bool hasPermission = await _requestStoragePermission();
     if (!hasPermission) {
-      print("Permission refusée !");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Permission refusée !")),
+      );
       return;
     }
 
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
       });
 
-      // Sauvegarde l'image localement
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('profile_image', pickedFile.path);
     }
   }
 
-  /// Déconnecte l'utilisateur
   Future<void> _logout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.clear(); // Efface les données utilisateur
-    Navigator.pushReplacementNamed(context, '/login'); // Redirige vers login
+    await prefs.clear();
+    
+    // Rediriger vers la page de connexion en supprimant tout l'historique de navigation
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[900], // Même couleur que la page Login
+      backgroundColor: Colors.blue[900],
       appBar: AppBar(
         title: const Text("Profil"),
-        backgroundColor: Colors.blue[800], // Couleur harmonisée avec Login
+        backgroundColor: Colors.blue[800],
       ),
       body: Center(
         child: Column(
@@ -98,7 +91,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  /// Affiche la photo de profil avec un bouton de modification
   Widget _buildProfilePicture() {
     return Stack(
       alignment: Alignment.bottomRight,
@@ -117,7 +109,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  /// Affiche un champ de profil (Nom, Téléphone, Adresse, Email)
   Widget _buildProfileField(IconData icon, String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -136,7 +127,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  /// Affiche le bouton de déconnexion
   Widget _buildLogoutButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () => _logout(context),
@@ -149,3 +139,4 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+

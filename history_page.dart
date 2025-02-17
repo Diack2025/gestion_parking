@@ -46,4 +46,3 @@ class HistoryPage extends StatelessWidget {
   }
 }
 
-

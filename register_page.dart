@@ -14,9 +14,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true; // Pour masquer/afficher le mot de passe
+  bool _obscurePassword = true;
 
-  // Liste des couleurs pour l'animation du fond (Orange comme la page de connexion)
+  
   final List<Color> _colors = [Colors.orange.shade700, Colors.orange.shade400];
   int _currentColorIndex = 0;
 
@@ -79,10 +79,10 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Container(
-              width: 350, // Rectangle bien centré
+              width: 350, 
               padding: EdgeInsets.all(25),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.95), // Légèrement transparent
+                color: Colors.white.withOpacity(0.95), 
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
@@ -98,14 +98,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Titre
+                    
                     Text(
                       "Créer un compte",
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.orange.shade700),
                     ),
                     SizedBox(height: 15),
 
-                    // Champ Email avec icône
+                    
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
@@ -119,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: 15),
 
-                    // Champ Mot de passe avec icône et œil
+                   
                     TextFormField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
@@ -145,7 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: 20),
 
-                    // Bouton d'inscription
+                    
                     ElevatedButton(
                       onPressed: register,
                       style: ElevatedButton.styleFrom(
@@ -162,7 +162,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: 15),
 
-                    // Lien pour retourner à la connexion
+                    
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);

@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'profile_page.dart';
+import 'history_page.dart';
 
 class ParkingDetailsPage extends StatefulWidget {
   final String nom;
@@ -84,7 +86,7 @@ class _ParkingDetailsPageState extends State<ParkingDetailsPage> {
       ),
       body: Stack(
         children: [
-          
+          // Image de fond
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -94,81 +96,127 @@ class _ParkingDetailsPageState extends State<ParkingDetailsPage> {
             ),
           ),
           
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Nom du Parking : ${widget.nom}",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Statut : ${widget.statut}",
-                  style: TextStyle(fontSize: 18, color: widget.statut == "Ouvert" ? Colors.green : Colors.red),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Places disponibles : $_placesDisponibles",
-                  style: TextStyle(fontSize: 18, color: Colors.orangeAccent, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Tarif : ${_prixMensuel.toString()} FCFA / mois",
-                  style: TextStyle(fontSize: 18, color: Colors.blueAccent, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 20),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: _numController,
-                        decoration: InputDecoration(
-                          labelText: "Numéro d'immatriculation",
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.directions_car, color: Colors.blue),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.8),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Veuillez entrer le numéro d'immatriculation";
-                          }
-                          return null;
-                        },
+          // Contenu principal avec fond semi-transparent
+          Container(
+            color: Colors.black.withOpacity(0.6),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Détails du parking
+                  Card(
+                    color: Colors.white.withOpacity(0.9),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Nom du Parking : ${widget.nom}",
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            "Statut : ${widget.statut}",
+                            style: TextStyle(
+                              fontSize: 18, 
+                              color: widget.statut == "Ouvert" ? Colors.green : Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            "Places disponibles : $_placesDisponibles",
+                            style: TextStyle(fontSize: 18, color: Colors.orangeAccent, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            "Tarif : ${_prixMensuel.toString()} FCFA / mois",
+                            style: TextStyle(fontSize: 18, color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 15),
-                      TextFormField(
-                        controller: _marqueController,
-                        decoration: InputDecoration(
-                          labelText: "Marque du véhicule",
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.car_rental, color: Colors.blue),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.8),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Veuillez entrer la marque du véhicule";
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: _ajouterVehicule,
-                        child: Text("Ajouter le véhicule"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
+
+                  SizedBox(height: 20),
+
+                  // Formulaire d'ajout de véhicule
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _numController,
+                          decoration: InputDecoration(
+                            labelText: "Numéro d'immatriculation",
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.directions_car, color: Colors.blue),
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.8),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Veuillez entrer le numéro d'immatriculation";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 15),
+                        TextFormField(
+                          controller: _marqueController,
+                          decoration: InputDecoration(
+                            labelText: "Marque du véhicule",
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.car_rental, color: Colors.blue),
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.8),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Veuillez entrer la marque du véhicule";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: _ajouterVehicule,
+                          child: Text("Ajouter le véhicule"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 20),
+
+                  // Bouton pour voir l'historique
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HistoryPage()),
+                        );
+                      },
+                      child: Text("Voir l'historique"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
